@@ -2,6 +2,8 @@ FOR ARCADE REVIEWERS, THIS FILE WILL EXPLAIN MY PLAN AND WHAT WAS DONE IN THE SE
 
 - Movie Screen and player mockups in figma
 - Electron Basic app
+- Rough Figma Mockup DONE
+- trying to embed mpv player
 
 
 
