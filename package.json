@@ -1,5 +1,5 @@
 {
-  "name": "electron",
+  "name": "electron-mpv-app",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
@@ -10,8 +10,5 @@
   "description": "",
   "devDependencies": {
     "electron": "^31.3.1"
-  },
-  "dependencies": {
-    "node-mpv": "^1.5.0"
   }
 }

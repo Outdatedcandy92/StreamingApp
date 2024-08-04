@@ -1,9 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { spawn } = require('child_process');
 const path = require('path');
-const MPV = require('node-mpv');
 
 let mainWindow;
-let mpvPlayer;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -11,67 +10,41 @@ function createWindow() {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   });
 
   mainWindow.loadFile('index.html');
-
-  mainWindow.on('closed', function () {
-    mainWindow = null;
-  });
-
-  mainWindow.webContents.on('did-finish-load', () => {
-    const mpvPath = 'C:/Users/Rudy/Downloads/mpv-x86_64-20240721-git-e509ec0/mpv.exe';
-
-    try {
-      const windowHandle = mainWindow.getNativeWindowHandle().readUInt32LE(0);
-      mpvPlayer = new MPV({
-        binary: mpvPath,
-        audio_only: false,
-        auto_restart: true,
-        verbose: true,
-        args: [`--wid=${windowHandle}`]
-      });
-
-      console.log('MPV player initialized');
-
-      mpvPlayer.start().then(() => {
-        console.log('MPV player started');
-      }).catch((err) => {
-        console.error('Failed to start MPV player:', err);
-      });
-    } catch (err) {
-      console.error('Error initializing MPV player:', err);
-    }
-  });
 }
 
 app.on('ready', createWindow);
 
-ipcMain.on('play-video', (event, videoPath) => {
-  mpvPlayer.load(videoPath);
-});
+ipcMain.on('select-file', async (event) => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile'],
+    filters: [{ name: 'Videos', extensions: ['mkv', 'avi', 'mp4'] }],
+  });
 
-ipcMain.on('control-video', (event, command) => {
-  if (command === 'play') {
-    mpvPlayer.play();
-  } else if (command === 'pause') {
-    mpvPlayer.pause();
-  } else if (command === 'stop') {
-    mpvPlayer.stop();
+  if (!result.canceled && result.filePaths.length > 0) {
+    event.sender.send('file-selected', result.filePaths[0]);
   }
 });
 
-app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+ipcMain.on('play-file', (event, filePath) => {
+  const windowHandle = mainWindow.getNativeWindowHandle();
+  const handleHex = windowHandle.toString('hex');
+  const handleId = parseInt(handleHex, 16);
 
-app.on('activate', function () {
-  if (mainWindow === null) {
-    createWindow();
-  }
+  const mpvProcess = spawn('mpv', [
+    filePath,
+    `--wid=${handleId}`,
+    '--force-window=yes',
+    '--hwdec=auto',
+    '--vo=gpu',
+  ]);
+
+  mpvProcess.on('error', (err) => {
+    console.error('Failed to start MPV:', err);
+  });
 });
