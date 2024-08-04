@@ -1,20 +1,6 @@
-const selectFileButton = document.getElementById('select-file');
-const playFileButton = document.getElementById('play-file');
-let selectedFilePath;
-
-selectFileButton.addEventListener('click', () => {
-  window.electronAPI.selectFile();
-});
-
-window.electronAPI.onFileSelected((event, filePath) => {
-  selectedFilePath = filePath;
-  alert(`Selected file: ${filePath}`);
-});
-
-playFileButton.addEventListener('click', () => {
-  if (selectedFilePath) {
-    window.electronAPI.playFile(selectedFilePath);
-  } else {
-    alert('No file selected');
-  }
-});
+document.getElementById('select-file').addEventListener('click', async () => {
+    const filePath = await window.electron.selectFile();
+    if (filePath) {
+      await window.electron.playVideo(filePath);
+    }
+  });

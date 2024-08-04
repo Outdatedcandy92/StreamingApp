@@ -1,8 +1,9 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
-const { spawn } = require('child_process');
 const path = require('path');
+const MPV = require('node-mpv');
 
 let mainWindow;
+let mpv;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -10,41 +11,60 @@ function createWindow() {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: false,
       contextIsolation: true,
+      enableRemoteModule: false,
     },
   });
 
   mainWindow.loadFile('index.html');
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    const nativeHandleBuffer = mainWindow.getNativeWindowHandle();
+    const nativeHandle = nativeHandleBuffer.readUInt32LE(0);
+
+    mpv = new MPV({
+      audio_only: false,
+      auto_restart: true,
+      binary: path.join(__dirname, 'mpv/mpv.exe'),
+      options: [`--wid=${nativeHandle}`],
+    });
+
+    mpv.on('started', () => {
+      console.log('MPV started');
+    });
+
+    mpv.on('stopped', () => {
+      console.log('MPV stopped');
+    });
+
+    ipcMain.handle('play-video', async (event, filePath) => {
+      await mpv.load(filePath);
+      await mpv.play();
+    });
+
+    ipcMain.handle('select-file', async () => {
+      const result = await dialog.showOpenDialog(mainWindow, {
+        properties: ['openFile'],
+        filters: [{ name: 'Videos', extensions: ['mp4', 'mkv', 'avi'] }],
+      });
+      if (!result.canceled) {
+        return result.filePaths[0];
+      }
+      return null;
+    });
+  });
 }
 
-app.on('ready', createWindow);
+app.whenReady().then(createWindow);
 
-ipcMain.on('select-file', async (event) => {
-  const result = await dialog.showOpenDialog(mainWindow, {
-    properties: ['openFile'],
-    filters: [{ name: 'Videos', extensions: ['mkv', 'avi', 'mp4'] }],
-  });
-
-  if (!result.canceled && result.filePaths.length > 0) {
-    event.sender.send('file-selected', result.filePaths[0]);
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
   }
 });
 
-ipcMain.on('play-file', (event, filePath) => {
-  const windowHandle = mainWindow.getNativeWindowHandle();
-  const handleHex = windowHandle.toString('hex');
-  const handleId = parseInt(handleHex, 16);
-
-  const mpvProcess = spawn('mpv', [
-    filePath,
-    `--wid=${handleId}`,
-    '--force-window=yes',
-    '--hwdec=auto',
-    '--vo=gpu',
-  ]);
-
-  mpvProcess.on('error', (err) => {
-    console.error('Failed to start MPV:', err);
-  });
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
 });
