@@ -10,7 +10,9 @@ FOR ARCADE REVIEWERS, THIS FILE WILL EXPLAIN MY PLAN AND WHAT WAS DONE IN THE SE
 
 -WORKED ON UI
 
-
+ https://images.metahub.space/background/medium/tt0372784/img --FOR BG
+ https://images.metahub.space/logo/medium/tt1877830/img --FOR LOGO
+  GET THE IMDB ID AND RTEPLACE FRO EACH MOVIE TO GET THE BG
 
 
 

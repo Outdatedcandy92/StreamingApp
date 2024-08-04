@@ -118,3 +118,10 @@ body {
     opacity: 0.5;
 
 }
+
+#item-nav {
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 16px;
+  }

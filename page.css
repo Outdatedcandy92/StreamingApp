@@ -1,0 +1,133 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+  }
+  
+  .top-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2; 
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('https://images.metahub.space/background/medium/tt0372784/img') no-repeat center center/cover;
+    z-index: 1;
+  }
+  
+  #item-nav {
+    background-color: rgba(51, 51, 51, 0.8);
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 16px;
+  }
+  
+  .navbar-icons {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar-icons i {
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .navbar-icons i:hover {
+    color: #ddd;
+  }
+  
+  .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+  }
+  
+  .column {
+    width: 33.33%;
+    height: 100%;
+  }
+
+  
+  .middle-column {
+    background-color: rgba(255, 0, 0, 0.5);
+  }
+  
+
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #ddd;
+    margin-left: 100px;
+  }
+  
+  .top-div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  
+  .top-div img {
+    width: 100%;
+    margin-top: auto;
+  }
+  
+  .bottom-div {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+  
+  .bottom-div {
+    padding: 10px;
+  }
+  .Rating-Div {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .rating-item {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .title {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .contentdiv {
+    font-size: 14px;
+  }
