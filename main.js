@@ -1,41 +1,29 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
-
-let mainWindow;
+const { app, BrowserWindow, screen } = require('electron');
 
 function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+  const win = new BrowserWindow({
+    width: width,
+    height: height,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      enableRemoteModule: false,
-    },
+      nodeIntegration: true
+    }
   });
 
-  mainWindow.loadFile('index.html');
-
-  mainWindow.on('closed', function () {
-    mainWindow = null;
-  });
-
-  // Send the video path to the renderer process
-  mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.send('video-loaded', 'dev/vid.mp4');
-  });
+  win.loadFile('index.html');
 }
 
-app.on('ready', createWindow);
+app.whenReady().then(createWindow);
 
-app.on('window-all-closed', function () {
+app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on('activate', function () {
-  if (mainWindow === null) {
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });

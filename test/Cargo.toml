@@ -1,8 +1,0 @@
-[package]
-name = "mpvclient"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-gtk = "0.9"
-mpv = "0.2.3"
