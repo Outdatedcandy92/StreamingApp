@@ -3,29 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Electron MPV Player</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    #video-container {
-      width: 100%;
-      height: 100%;
-      background-color: black;
-    }
-  </style>
+  <title>Video Player</title>
 </head>
 <body>
-  <h1>Select a video file to play</h1>
-  <button id="select-file">Select File</button>
-  <div id="video-container"></div>
+  <video id="video-player" controls></video>
   <script src="renderer.js"></script>
 </body>
 </html>
