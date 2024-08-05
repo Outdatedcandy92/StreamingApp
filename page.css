@@ -18,7 +18,7 @@ html {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 999;
+  z-index: 2;
 }
 
 .overlay {
@@ -45,14 +45,31 @@ html {
   justify-content: flex-end;
   padding: 14px 16px;
 }
-
-.navbar-icons{
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  padding: 0 10px; 
   font-size: 30px;
   color: #9A99A5;
   z-index: 999;
+  position: relative;
 }
+
+.navbar-back i {
+  margin: 20px; 
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.navbar-back i:hover {
+  transform: scale(1.1);
+}
+
+
 .navbar-icons i {
-  margin-left: 20px; 
+  margin: 20px; 
   cursor: pointer;
   transition: transform 0.3s ease;
 }
@@ -158,7 +175,7 @@ html {
 }
 
 .player-container {
-  background-color: rgba(22, 21, 22, 0.8);
+  background-color: rgba(22, 21, 22, 0.3);
   height: 80%;
   width: 90%;
   bottom: 0;

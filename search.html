@@ -73,31 +73,6 @@
 
 
     <script>
-        // FIXME: IF NO POSTER DONT DISPLAY
-        window.electron.receive('search-data', (data) => {
-            const container = document.getElementById('container');
-            container.innerHTML = '';
-            data.Search.forEach((movie) => {
-                const wrapperDiv = document.createElement('div');
-                wrapperDiv.className = 'rounded-div-wrapper';
-
-                const roundedDiv = document.createElement('div');
-                roundedDiv.className = 'rounded-div';
-                roundedDiv.style.background = `url(${movie.Poster})`;
-                roundedDiv.style.backgroundSize = 'cover';
-                roundedDiv.style.backgroundPosition = 'center'; 
-                roundedDiv.dataset.imdbid = movie.imdbID; 
-
-                const belowTextDiv = document.createElement('div');
-                belowTextDiv.className = 'below-text';
-                belowTextDiv.textContent = movie.Title; 
-
-                wrapperDiv.appendChild(roundedDiv);
-                wrapperDiv.appendChild(belowTextDiv);
-                container.appendChild(wrapperDiv);
-            });
-        });
-
         document.addEventListener('DOMContentLoaded', () => {
             const inputField = document.getElementById('search-input');
 
@@ -106,6 +81,40 @@
                     const query = inputField.value;
                     window.electron.sendSearchQuery(query);
                 }
+            });
+        });
+
+        // FIXME: IF NO POSTER DONT DISPLAY
+        window.electron.receive('search-data', (data) => {
+            const container = document.getElementById('container');
+            container.innerHTML = '';
+            data.Search.forEach((movie) => {
+                if (movie.Poster === 'N/A') return; // Skip movies with no poster
+
+                const wrapperDiv = document.createElement('div');
+                wrapperDiv.className = 'rounded-div-wrapper';
+
+                const roundedDiv = document.createElement('div');
+                roundedDiv.className = 'rounded-div';
+                roundedDiv.style.background = `url(${movie.Poster})`;
+                roundedDiv.style.backgroundSize = 'cover';
+                roundedDiv.style.backgroundPosition = 'center';
+                roundedDiv.dataset.imdbid = movie.imdbID;
+
+                const belowTextDiv = document.createElement('div');
+                belowTextDiv.className = 'below-text';
+                belowTextDiv.textContent = movie.Title;
+
+                wrapperDiv.appendChild(roundedDiv);
+                wrapperDiv.appendChild(belowTextDiv);
+                container.appendChild(wrapperDiv);
+
+                // Add event listener to each roundedDiv dynamically
+                roundedDiv.addEventListener('click', () => {
+                    const query = roundedDiv.dataset.imdbid; 
+                    console.log("rounded div clicked: ", query);
+                    window.electron.sendInfoQuery(query);
+                });
             });
         });
     </script>

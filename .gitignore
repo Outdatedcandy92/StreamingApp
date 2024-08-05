@@ -2,3 +2,4 @@ node_modules/
 dev/
 mpv/
 .env
+logs/

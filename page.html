@@ -17,15 +17,18 @@
 
   <div class="top-layer">
 
-    <nav id="item-nav">
+    <nav class="navbar">
+      <div class="navbar-back">
+        <i class="fa-solid fa-chevron-left" onclick="window.location.href='index.html'"></i>
+      </div>
+
       <div class="navbar-icons">
-
         <i class="fas fa-cog"></i>
-        <i class="fas fa-expand"></i>
+        <i class="fas fa-expand" id="fullscreen-toggle"></i>
         <i class="fas fa-user"></i>
-
       </div>
     </nav>
+
     <div class="content">
 
 
@@ -130,6 +133,20 @@
         movSummary.innerHTML = data.Plot;
 
       });
+      function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  document.getElementById('fullscreen-toggle').addEventListener('click', toggleFullscreen);
+
+
+  
     </script>
 
 </body>
