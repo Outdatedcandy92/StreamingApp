@@ -3,6 +3,7 @@ const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
+const PirateBay = require('thepiratebay');
 
 let apiKey = process.env.API_KEY;
 let win
@@ -18,7 +19,7 @@ function createWindow() {
       contextIsolation: true,
       enableRemoteModule: false,
     },
-    icon: path.join(__dirname, 'Artwork/logo-01.png'),
+    icon: path.join(__dirname, 'src/img/logo.png'),
     autoHideMenuBar: true
   });
 
@@ -44,15 +45,15 @@ ipcMain.on('search-query', async (event, query) => {
   const url = `http://www.omdbapi.com/?s=${query}&apikey=${apiKey}`;
   try {
     const response = await axios.get(url);
-    console.log(response.data);
+   // console.log(response.data);
 
 
-    // remove later
+    // remove later (LOGS FOR DEBUGGING)
     const dataPath = path.join(__dirname, 'logs/search-query.json');
     fs.writeFileSync(dataPath, JSON.stringify(response.data, null, 2), 'utf-8');
     console.log('Data written to data.json');
 
-    win.loadFile('search.html').then(() => {
+    win.loadFile(path.join(__dirname, 'src', 'search.html')).then(() => {
       win.webContents.send('search-data', response.data);
     });
   } catch (error) {
@@ -65,14 +66,14 @@ ipcMain.on('info-query', async (event,query) => {
   const url = `http://www.omdbapi.com/?i=${query}&apikey=${apiKey}`;
   try {
     const response = await axios.get(url);
-    console.log(response.data);
+    //console.log(response.data);
 
 
     const dataPath = path.join(__dirname, 'logs/info-query.json');
     fs.writeFileSync(dataPath, JSON.stringify(response.data, null, 2), 'utf-8');
     console.log('Data written to data.json');
 
-    win.loadFile('page.html').then(() => {
+    win.loadFile(path.join(__dirname, 'src', 'page.html')).then(() => {
       win.webContents.send('movie-data', response.data);
     });
   } catch (error) {
@@ -81,4 +82,20 @@ ipcMain.on('info-query', async (event,query) => {
 });
 
 
-//TMDB API
+ipcMain.on('torrent-search', async (event, movieTitle) => {
+  console.log('torrent-search event received with movieTitle:', movieTitle);
+  try {
+    const torrents = await PirateBay.search('harry potter', {
+      category: 'video',
+    });
+    console.log('Torrents found:', torrents);
+
+    const torrentPath = path.join(__dirname, 'logs/torrent-search.json');
+    fs.writeFileSync(torrentPath, JSON.stringify(torrents, null, 2), 'utf-8');
+    console.log('Torrents written to torrent-search.json');
+
+    event.sender.send('torrent-results', torrents);
+  } catch (error) {
+    console.error('Error searching for torrents:', error);
+  }
+});

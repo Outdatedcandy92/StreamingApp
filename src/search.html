@@ -39,7 +39,7 @@
 <body>
     <nav class="navbar">
         <div class="navbar-logo">
-            <img src="Artwork/logo-01.png" alt="Logo" onclick="window.location.href='index.html'">
+            <img src="./img/logo.png" alt="Logo" onclick="history.back()">
         </div>
         <div class="navbar-search">
             <input type="text" id="search-input" placeholder="Search for a movie...">
@@ -109,7 +109,10 @@
                 wrapperDiv.appendChild(belowTextDiv);
                 container.appendChild(wrapperDiv);
 
+
+
                 // Add event listener to each roundedDiv dynamically
+                // FIXME: Make this better
                 roundedDiv.addEventListener('click', () => {
                     const query = roundedDiv.dataset.imdbid; 
                     console.log("rounded div clicked: ", query);

@@ -169,7 +169,7 @@ html {
 
 .right-column {
   position: relative;
-  background: url('your-background-image.jpg') no-repeat center center;
+  background: url('Theimage') no-repeat center center;
   background-size: cover;
   height: 100vh;
 }

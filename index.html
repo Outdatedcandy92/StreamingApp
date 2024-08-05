@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Streaming App</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="src/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
   <nav class="navbar">
     <div class="navbar-logo">
-      <img src="Artwork/logo-01.png" alt="Logo">
+      <img src="src/img/logo.png" alt="Logo">
     </div>
     <div class="navbar-search">
       <input type="text" id="search-input" placeholder="Search for a movie...">
@@ -59,7 +59,18 @@
 
 
 
-  <script src="renderer.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const inputField = document.getElementById('search-input');
+
+      inputField.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          const query = inputField.value;
+          window.electron.sendSearchQuery(query);
+        }
+      });
+    });
+  </script>
 
 </body>
 

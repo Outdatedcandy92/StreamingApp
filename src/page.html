@@ -19,7 +19,7 @@
 
     <nav class="navbar">
       <div class="navbar-back">
-        <i class="fa-solid fa-chevron-left" onclick="window.location.href='index.html'"></i>
+        <i class="fa-solid fa-chevron-left" onclick="history.back()"></i>
       </div>
 
       <div class="navbar-icons">
@@ -101,6 +101,15 @@
 
 
     <script>
+
+window.electron.sendTorrentSearch('The Dark Knight');
+
+window.electron.onTorrentResults((torrents) => {
+  console.log("Torrent Results: ", torrents);
+});
+
+
+
       window.electron.onMovieData((data) => {
 
         console.log("Selected Name: ",data.Title);

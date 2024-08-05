@@ -16,6 +16,8 @@ contextBridge.exposeInMainWorld('electron', {
   },
   remote: {
     getCurrentWindow: () => remote.getCurrentWindow()
-  }
+  },
+  sendTorrentSearch: (movieTitle) => ipcRenderer.send('torrent-search', movieTitle),
+  onTorrentResults: (callback) => ipcRenderer.on('torrent-results', (event, torrents) => callback(torrents)),
   
 });
