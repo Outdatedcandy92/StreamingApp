@@ -4,10 +4,13 @@ const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
 
+
+let win
+
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: width,
     height: height,
     webPreferences: {
@@ -41,10 +44,13 @@ ipcMain.on('search-query', async (event, query) => {
     const response = await axios.get(url);
     console.log(response.data);
 
-
     const dataPath = path.join(__dirname, 'data.json');
     fs.writeFileSync(dataPath, JSON.stringify(response.data, null, 2), 'utf-8');
     console.log('Data written to data.json');
+
+    win.loadFile('page.html').then(() => {
+      win.webContents.send('movie-data', response.data);
+    });
   } catch (error) {
     console.error('Error fetching data:', error);
   }

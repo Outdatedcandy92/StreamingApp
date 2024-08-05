@@ -1,9 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
-  
-  ipcRenderer: {
-    send: (channel, data) => ipcRenderer.send(channel, data),
-    on: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(...args)),
-  },
+  sendSearchQuery: (query) => ipcRenderer.send('search-query', query),
+  onMovieData: (callback) => ipcRenderer.on('movie-data', (event, data) => callback(data))
 });

@@ -50,10 +50,16 @@ html {
 .navbar-icons{
   font-size: 30px;
   color: #9A99A5;
+  z-index: 999;
 }
 .navbar-icons i {
   margin-left: 20px; 
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.navbar-icons i:hover {
+  transform: scale(1.1);
 }
 
 .navbar-icons i:last-child {
@@ -75,7 +81,7 @@ html {
 }
 
 .middle-column {
-  border: 1px solid #ffffff;
+  /* border: 1px solid #ffffff; */
 }
 
 .left-column {
@@ -153,12 +159,62 @@ html {
 }
 
 .player-container {
-  background-color: rgba(22, 21, 22, 0.5);
+  background-color: rgba(22, 21, 22, 0.8);
   height: 80%;
   width: 90%;
   bottom: 0;
   right: 0;
   position: absolute;
   border-top-left-radius: 20px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  color: white;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  height: 70px;
+  transition: transform 0.3s ease;
+}
+
+.player-item:hover {
+  transform: scale(1.05); 
+}
+
+.player-item:first-child {
+  margin-top: 70px;
+}
+
+
+
+.player-subitem {
+  /* background-color: #3e31c8;  */
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+ 
+.player-extra {
+  /* background-color: #ffffff; */
+  flex: 0 0 20%; 
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#PlayBtn {
+  color: rgb(87, 0, 105);
+  font-size: 40px;
+  transition: transform 0.3s ease;
+}
+#PlayBtn:hover {
+  /* TODO: PICK COLOR */
+  transform: scale(1.1); 
 }
