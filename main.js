@@ -82,20 +82,52 @@ ipcMain.on('info-query', async (event,query) => {
 });
 
 
+// ipcMain.on('torrent-search', async (event, movieTitle) => { //more debug
+//   console.log('torrent-search event received with movieTitle:', movieTitle);
+//   try {
+//     const searchOptions = {
+//       category: 'video',
+//     };
+//     console.log('Search options:', searchOptions);
+
+//     const torrents = await PirateBay.search(movieTitle, searchOptions);
+//     console.log('Torrents found:', torrents);
+
+//     const torrentPath = path.join(__dirname, 'logs/torrent-search.json');
+//     fs.writeFileSync(torrentPath, JSON.stringify(torrents, null, 2), 'utf-8');
+//     console.log('Torrents written to torrent-search.json');
+
+//     event.sender.send('torrent-results', torrents);
+//   } catch (error) {
+//     console.error('Error searching for torrents:', error);
+//   }
+// });
+
 ipcMain.on('torrent-search', async (event, movieTitle) => {
   console.log('torrent-search event received with movieTitle:', movieTitle);
   try {
-    const torrents = await PirateBay.search('harry potter', {
+
+    // Temporarily using a hardcoded search term for debugging
+    const searchResults = await PirateBay.search('harry potter', {
       category: 'video',
-    });
-    console.log('Torrents found:', torrents);
+      page: 3
+    })
+    console.log(searchResults)
 
     const torrentPath = path.join(__dirname, 'logs/torrent-search.json');
-    fs.writeFileSync(torrentPath, JSON.stringify(torrents, null, 2), 'utf-8');
+    fs.writeFileSync(torrentPath, JSON.stringify(searchResults, null, 2), 'utf-8');
     console.log('Torrents written to torrent-search.json');
 
-    event.sender.send('torrent-results', torrents);
+    event.sender.send('torrent-results', searchResults);
   } catch (error) {
     console.error('Error searching for torrents:', error);
   }
 });
+
+const searchResults = PirateBay.search('harry potter', {
+  category: 'video',
+  page: 3
+})
+setTimeout(() => {
+  console.log(searchResults);
+}, 10000);
