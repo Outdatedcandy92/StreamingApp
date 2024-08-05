@@ -77,9 +77,9 @@
         <div class="player-container" id="player-container">
 
 
-<!-- Stuff will be added from script -->
+          <!-- Stuff will be added from script -->
 
-<!-- 
+          <!-- 
           <div class="player-item">
             <div class="player-subitem">Source 1080p</div>
             <div class="player-subitem" id="Info-sub">Info About source 1 and stuf</div>
@@ -87,85 +87,82 @@
               <i class="fa-regular fa-circle-play" id="PlayBtn"></i>
             </div>
           </div>
-          <div class="player-item">
-            <div class="player-subitem">Subitem 2A</div>
-            <div class="player-subitem">Subitem 2B</div>
-            <div class="player-extra">Extra 2</div>
-          </div>
-          <div class="player-item">
-            <div class="player-subitem">Subitem 3A</div>
-            <div class="player-subitem">Subitem 3B</div>
-            <div class="player-extra">Extra 3</div>
-          </div>
-        </div> 
-      </div> -->
+ -->
 
-    </div>
+        </div>
 
 
 
 
 
-    <script>
+        <script>
 
 
 
 
 
-      window.electron.onMovieData((data) => {
+          window.electron.onMovieData((data) => {
 
-        console.log("Selected Name: ", data.Title);
+            console.log("Selected Name: ", data.Title);
 
-        const bgImageDiv = document.getElementById('bgImage');
-        const bgLogoDiv = document.getElementById('bgLogo');
+            const bgImageDiv = document.getElementById('bgImage');
+            const bgLogoDiv = document.getElementById('bgLogo');
 
-        bgImageDiv.style.background = `url('https://images.metahub.space/background/medium/${data.imdbID}/img') no-repeat center center/cover`;
-        bgLogoDiv.src = `https://images.metahub.space/logo/medium/${data.imdbID}/img`;
-
-
-        const movTime = document.getElementById('movTime');
-        const movYear = document.getElementById('movYear');
-        const movRating = document.getElementById('movRating');
-
-        movTime.innerHTML = data.Runtime;
-        movYear.innerHTML = data.Year;
-        movRating.innerHTML = data.imdbRating;
+            bgImageDiv.style.background = `url('https://images.metahub.space/background/medium/${data.imdbID}/img') no-repeat center center/cover`;
+            bgLogoDiv.src = `https://images.metahub.space/logo/medium/${data.imdbID}/img`;
 
 
-        const movGeneres = document.getElementById('movGeneres');
-        const movCast = document.getElementById('movCast');
-        const movDirector = document.getElementById('movDirector');
-        const movSummary = document.getElementById('movSummary');
+            const movTime = document.getElementById('movTime');
+            const movYear = document.getElementById('movYear');
+            const movRating = document.getElementById('movRating');
 
-        // TODO: IF SERIES CHECK THE WRITERS
-        movGeneres.innerHTML = data.Genre;
-        movCast.innerHTML = data.Actors;
-        movDirector.innerHTML = data.Director;
-        movSummary.innerHTML = data.Plot;
+            movTime.innerHTML = data.Runtime;
+            movYear.innerHTML = data.Year;
+            movRating.innerHTML = data.imdbRating;
 
 
+            const movGeneres = document.getElementById('movGeneres');
+            const movCast = document.getElementById('movCast');
+            const movDirector = document.getElementById('movDirector');
+            const movSummary = document.getElementById('movSummary');
+
+            // TODO: IF SERIES CHECK THE WRITERS
+            movGeneres.innerHTML = data.Genre;
+            movCast.innerHTML = data.Actors;
+            movDirector.innerHTML = data.Director;
+            movSummary.innerHTML = data.Plot;
 
 
-        window.electron.sendTorrentSearch(data.Title);
 
 
-        window.electron.onTorrentResults((torrents) => {
-          console.log("Torrent Results: ", torrents);
-
-          const playerContainer = document.getElementById('player-container');
-          playerContainer.innerHTML = '';
-
-          torrents.items.slice(0, 20).forEach(item => {
-            const { provider, data: { name, seeds, peers } } = item;
-            console.log(`Provider: ${provider}, Name: ${name}, Seeds: ${seeds}, Peers: ${peers}`);
+            window.electron.sendTorrentSearch(data.imdbID);
 
 
-            const torrentElement = document.createElement('div');
-            torrentElement.classList.add('player-item');
+            window.electron.onTorrentResults((torrents) => {
+              console.log("Torrent Results: ", torrents);
 
-            // CHANGE THIS LATER
-            // TODO: ADD A VALUE FOR ONCLICK TO PLAY THE MOVIE
-            torrentElement.innerHTML = `
+              const playerContainer = document.getElementById('player-container');
+              playerContainer.innerHTML = '';
+
+              torrents.items.slice(0, 20).forEach(item => {
+                const { provider, data: { name, seeds, peers, magnet } } = item;
+                console.log(`Provider: ${provider}, Name: ${name}, Seeds: ${seeds}, Peers: ${peers},\nMagnet: ${magnet}`);
+
+
+                const torrentElement = document.createElement('div');
+                torrentElement.classList.add('player-item');
+
+                torrentElement.onclick = () => {
+                  const torrentData = {
+                    id: data.imdbID,
+                    magnet: magnet
+                  };
+                  window.electron.send('torrent-selected', torrentData);
+                };
+
+                // CHANGE THIS LATER
+                // TODO: ADD A VALUE FOR ONCLICK TO PLAY THE MOVIE
+                torrentElement.innerHTML = `
             <div class="player-subitem">${provider}</div>
             <div class="player-subitem" id="Info-sub">${name}</div>
             <div class="player-extra">
@@ -177,32 +174,32 @@
             `;
 
 
-            playerContainer.appendChild(torrentElement);
+                playerContainer.appendChild(torrentElement);
+              });
+            });
+
           });
-        });
-
-      });
 
 
 
 
 
 
-      function toggleFullscreen() {
-        if (!document.fullscreenElement) {
-          document.documentElement.requestFullscreen().catch((err) => {
-            console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
-          });
-        } else {
-          document.exitFullscreen();
-        }
-      }
+          function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+              document.documentElement.requestFullscreen().catch((err) => {
+                console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+              });
+            } else {
+              document.exitFullscreen();
+            }
+          }
 
-      document.getElementById('fullscreen-toggle').addEventListener('click', toggleFullscreen);
+          document.getElementById('fullscreen-toggle').addEventListener('click', toggleFullscreen);
 
 
 
-    </script>
+        </script>
 
 </body>
 

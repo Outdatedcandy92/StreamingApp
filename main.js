@@ -4,7 +4,7 @@ const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
 const { search, defaultProviders } = require('torrent-browse');
-
+const { exec } = require('child_process');
 
 let apiKey = process.env.API_KEY;
 let win
@@ -91,17 +91,17 @@ ipcMain.on('torrent-search', async (event, movieTitle) => { //more debug
       defaultProviders,
       movieTitle,
       //https://kiralt.github.io/torrent-browse/interfaces/Provider.html THE DOCS
-      { fields: ['name', 'seeds', 'peers', 'getMagnet'] } 
+      { fields: ['name', 'seeds', 'peers', 'getMagnet'] },
     ).then(result => {
-      console.log(result)
-      console.log('Torrents found:', result);
+
+      //console.log('Torrents found:', result);
       const torrentPath = path.join(__dirname, 'logs/torrent-search.json');
       fs.writeFileSync(torrentPath, JSON.stringify(result, null, 2), 'utf-8');
       console.log('Torrents written to torrent-search.json');
-  
+
       event.sender.send('torrent-results', result);
     })
-    
+
 
 
   } catch (error) {
@@ -111,3 +111,20 @@ ipcMain.on('torrent-search', async (event, movieTitle) => { //more debug
 
 
 
+
+ipcMain.on('torrent-selected', (event, torrentData) => {
+  console.log('Torrent Selected:', torrentData.magnet);
+
+  const command = `webtorrent "${torrentData.magnet}" --mpv`;
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing command: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+  });
+});

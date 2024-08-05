@@ -19,5 +19,17 @@ contextBridge.exposeInMainWorld('electron', {
   },
   sendTorrentSearch: (movieTitle) => ipcRenderer.send('torrent-search', movieTitle),
   onTorrentResults: (callback) => ipcRenderer.on('torrent-results', (event, torrents) => callback(torrents)),
+  send: (channel, data) => {
+    // List of allowed channels
+    let validChannels = ['torrent-selected'];
+    if (validChannels.includes(channel)) {
+        ipcRenderer.send(channel, data);
+    }
+},
+onTorrentResults: (callback) => {
+    ipcRenderer.on('torrent-results', (event, data) => {
+        callback(data);
+    });
+}
   
 });

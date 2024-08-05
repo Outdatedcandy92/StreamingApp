@@ -17,8 +17,8 @@
     "mpv-ipc": "^0.1.3",
     "node-ipc": "^10.1.0",
     "node-mpv": "^1.5.0",
-    "thepiratebay": "^1.4.8",
     "torrent-browse": "^1.0.2",
+    "webtorrent": "^2.5.0",
     "ws": "^8.18.0"
   }
 }
