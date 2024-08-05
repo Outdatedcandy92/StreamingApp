@@ -15,9 +15,30 @@ FOR ARCADE REVIEWERS, THIS FILE WILL EXPLAIN MY PLAN AND WHAT WAS DONE IN THE SE
   GET THE IMDB ID AND RTEPLACE FRO EACH MOVIE TO GET THE BG
 
 
+THE PLAN:
+ - CREATE a search page
+ - shows all results
 
-STEP 2:
+
+
+
+
+
+
+
+
+Milesone 2:
  INTEGRATE WEBTORRENT 
+ ADD HISTORY
+ download option
+
+
+
+Milestone 3:
+  Add a watchlish and library
+  
+
+
 
 
 
@@ -34,3 +55,4 @@ STEP 2:
 
 Personal Notes-
 - USE metahub.space for movie posters and stuff
+https://www.omdbapi.com/

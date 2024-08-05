@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <div class="overlay">
+  <div class="overlay" id="bgImage">
     <div class="overlay-img"></div>
   </div>
 
@@ -31,32 +31,31 @@
 
       <div class="column left-column">
         <div class="top-div">
-          <img src="https://images.metahub.space/logo/medium/tt0372784/img" alt="Image">
+          <img src="" alt="Image" id="bgLogo">
         </div>
         <div class="bottom-div">
           <div class="Rating-Div">
-            <div class="rating-item" id="NameMov">8.5</div>
-            <div class="rating-item">120 min</div>
-            <div class="rating-item">2012</div>
-            <div class="rating-item">IMDB</div>
+            <div class="rating-item" id="movTime">120 min</div>
+            <div class="rating-item" id="movYear">2012</div>
+            <div class="rating-item" id="movRating">IMDB</div>
           </div>
 
           <div class="info">
             <div class="info-item">
               <div class="title">Genres</div>
-              <div class="contentdiv">Action, Crime, Thriller</div>
+              <div class="contentdiv" id="movGeneres">Action, Crime, Thriller</div>
             </div>
             <div class="info-item">
               <div class="title">Cast</div>
-              <div class="contentdiv">Robert Pattinson, Jeffery ...</div>
+              <div class="contentdiv" id="movCast">Robert Pattinson, Jeffery ...</div>
             </div>
             <div class="info-item">
               <div class="title">Director</div>
-              <div class="contentdiv">Matt Revees</div>
+              <div class="contentdiv" id="movDirector">Matt Revees</div>
             </div>
             <div class="info-item">
               <div class="title">Summary</div>
-              <div class="contentdiv">The Dark Knight of Gotham City begins his war on crime with his first major enemy
+              <div class="contentdiv" id="movSummary">The Dark Knight of Gotham City begins his war on crime with his first major enemy
                 being Jack Napier, a criminal who becomes the clownishly homicidal Joker.</div>
             </div>
           </div>
@@ -100,9 +99,35 @@
 
     <script>
       window.electron.onMovieData((data) => {
-        const movieInfoDiv = document.getElementById('NameMov');
-        console.log(data.Title);
-        movieInfoDiv.innerHTML = data.Title;
+
+        console.log("Selected Name: ",data.Title);
+      
+        const bgImageDiv = document.getElementById('bgImage');
+        const bgLogoDiv = document.getElementById('bgLogo');
+
+        bgImageDiv.style.background = `url('https://images.metahub.space/background/medium/${data.imdbID}/img') no-repeat center center/cover`;
+        bgLogoDiv.src = `https://images.metahub.space/logo/medium/${data.imdbID}/img`;
+
+
+        const movTime = document.getElementById('movTime');
+        const movYear = document.getElementById('movYear');
+        const movRating = document.getElementById('movRating');
+
+        movTime.innerHTML = data.Runtime;
+        movYear.innerHTML = data.Year;
+        movRating.innerHTML = data.imdbRating;
+
+
+        const movGeneres = document.getElementById('movGeneres');
+        const movCast = document.getElementById('movCast');
+        const movDirector = document.getElementById('movDirector');
+        const movSummary = document.getElementById('movSummary');
+
+        // TODO: IF SERIES CHECK THE WRITERS
+        movGeneres.innerHTML = data.Genre;
+        movCast.innerHTML = data.Actors;
+        movDirector.innerHTML = data.Director;
+        movSummary.innerHTML = data.Plot;
 
       });
     </script>
