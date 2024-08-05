@@ -16,8 +16,13 @@ FOR ARCADE REVIEWERS, THIS FILE WILL EXPLAIN MY PLAN AND WHAT WAS DONE IN THE SE
 
 
 THE PLAN:
- - CREATE a search page
- - shows all results
+ - CREATE a search page (done)
+ - shows all results (done)
+ - divs are clickable
+
+
+
+ -HOME PAGE
 
 
 

@@ -1,33 +1,76 @@
 {
-  "Title": "Breaking Bad",
-  "Year": "2008–2013",
-  "Rated": "TV-MA",
-  "Released": "20 Jan 2008",
-  "Runtime": "49 min",
-  "Genre": "Crime, Drama, Thriller",
-  "Director": "N/A",
-  "Writer": "Vince Gilligan",
-  "Actors": "Bryan Cranston, Aaron Paul, Anna Gunn",
-  "Plot": "A chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine with a former student in order to secure his family's future.",
-  "Language": "English, Spanish",
-  "Country": "United States",
-  "Awards": "Won 16 Primetime Emmys. 157 wins & 247 nominations total",
-  "Poster": "https://m.media-amazon.com/images/M/MV5BYmQ4YWMxYjUtNjZmYi00MDQ1LWFjMjMtNjA5ZDdiYjdiODU5XkEyXkFqcGdeQXVyMTMzNDExODE5._V1_SX300.jpg",
-  "Ratings": [
+  "Search": [
     {
-      "Source": "Internet Movie Database",
-      "Value": "9.5/10"
+      "Title": "Breaking Bad",
+      "Year": "2008–2013",
+      "imdbID": "tt0903747",
+      "Type": "series",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BYmQ4YWMxYjUtNjZmYi00MDQ1LWFjMjMtNjA5ZDdiYjdiODU5XkEyXkFqcGdeQXVyMTMzNDExODE5._V1_SX300.jpg"
     },
     {
-      "Source": "Rotten Tomatoes",
-      "Value": "96%"
+      "Title": "El Camino: A Breaking Bad Movie",
+      "Year": "2019",
+      "imdbID": "tt9243946",
+      "Type": "movie",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BNjk4MzVlM2UtZGM0ZC00M2M1LThkMWEtZjUyN2U2ZTc0NmM5XkEyXkFqcGdeQXVyOTAzMTc2MjA@._V1_SX300.jpg"
+    },
+    {
+      "Title": "The Bad News Bears in Breaking Training",
+      "Year": "1977",
+      "imdbID": "tt0075718",
+      "Type": "movie",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BNjI0ZTRmNTEtYjVhMC00MTM0LWFjNDQtYjBhNTNlNWRlMDgxXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
+    },
+    {
+      "Title": "Breaking Bad: Original Minisodes",
+      "Year": "2009–2011",
+      "imdbID": "tt2387761",
+      "Type": "series",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMDdlM2QzOGMtODc2My00NTFjLWIyZGUtYjQ4NDNhZjYyM2NkXkEyXkFqcGdeQXVyMDM0MzU2NA@@._V1_SX300.jpg"
+    },
+    {
+      "Title": "The Road to El Camino: Behind the Scenes of El Camino: A Breaking Bad Movie",
+      "Year": "2019",
+      "imdbID": "tt11151792",
+      "Type": "movie",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BNDEwNTgyM2MtYzA0ZS00ODU0LWFlMmEtN2NkYzNlNjRhNzJmXkEyXkFqcGdeQXVyMTExNzkxOTY@._V1_SX300.jpg"
+    },
+    {
+      "Title": "No Half Measures: Creating the Final Season of Breaking Bad",
+      "Year": "2013",
+      "imdbID": "tt3088036",
+      "Type": "movie",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMDEwMTVmN2ItYzliNS00MWM2LTljNTUtZWU0NjQyZjRhNTc2XkEyXkFqcGdeQXVyNjc3NzgxNjA@._V1_SX300.jpg"
+    },
+    {
+      "Title": "Breaking Bad Season 3: Silent But Deadly - The Brothers Moncada",
+      "Year": "2011",
+      "imdbID": "tt2380191",
+      "Type": "movie",
+      "Poster": "N/A"
+    },
+    {
+      "Title": "Snow Globe: A Breaking Bad Short",
+      "Year": "2020",
+      "imdbID": "tt11828264",
+      "Type": "movie",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BNzZlODUzY2UtYzU3My00M2EzLTgzOGUtNzlmZTQwNWE2MTVjXkEyXkFqcGdeQXVyMTQ0NjE2NTI@._V1_SX300.jpg"
+    },
+    {
+      "Title": "Breaking Bad: The Middle School Musical",
+      "Year": "2013",
+      "imdbID": "tt4135410",
+      "Type": "movie",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BNDcwYjM2OTEtMzg4NC00YjU5LTg4ZWMtNjcxYzU3Njc5OGU0XkEyXkFqcGdeQXVyMTIxMDUyOTI@._V1_SX300.jpg"
+    },
+    {
+      "Title": "Making of 'Breaking Bad'",
+      "Year": "2007",
+      "imdbID": "tt1156457",
+      "Type": "movie",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BZjExZTAyN2ItNTU1NC00ZWRlLWFjYzYtNmNmZDA2NDY1MzQyXkEyXkFqcGdeQXVyMTExNzkxOTY@._V1_SX300.jpg"
     }
   ],
-  "Metascore": "N/A",
-  "imdbRating": "9.5",
-  "imdbVotes": "2,175,303",
-  "imdbID": "tt0903747",
-  "Type": "series",
-  "totalSeasons": "5",
+  "totalResults": "40",
   "Response": "True"
 }

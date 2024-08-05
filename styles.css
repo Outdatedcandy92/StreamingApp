@@ -101,6 +101,7 @@ body {
     width: 100px; 
     height: 150px;
     text-align: center;
+    
 }
 
 .below-text {
@@ -108,6 +109,8 @@ body {
     font-size: 14px; 
     color: white;
     text-align: center;
+    max-width: 100px;
+    word-wrap: break-word;
 }
 
 .left-text{
