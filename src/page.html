@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- use the scirpt to get title -->
-  <title>Page</title> 
+  <title>Page</title>
   <link rel="stylesheet" href="page.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -58,7 +58,8 @@
             </div>
             <div class="info-item">
               <div class="title">Summary</div>
-              <div class="contentdiv" id="movSummary">The Dark Knight of Gotham City begins his war on crime with his first major enemy
+              <div class="contentdiv" id="movSummary">The Dark Knight of Gotham City begins his war on crime with his
+                first major enemy
                 being Jack Napier, a criminal who becomes the clownishly homicidal Joker.</div>
             </div>
           </div>
@@ -73,7 +74,12 @@
 
 
       <div class="column right-column">
-        <div class="player-container">
+        <div class="player-container" id="player-container">
+
+
+<!-- Stuff will be added from script -->
+
+<!-- 
           <div class="player-item">
             <div class="player-subitem">Source 1080p</div>
             <div class="player-subitem" id="Info-sub">Info About source 1 and stuf</div>
@@ -91,8 +97,8 @@
             <div class="player-subitem">Subitem 3B</div>
             <div class="player-extra">Extra 3</div>
           </div>
-        </div>
-      </div>
+        </div> 
+      </div> -->
 
     </div>
 
@@ -102,18 +108,14 @@
 
     <script>
 
-window.electron.sendTorrentSearch('The Dark Knight');
 
-window.electron.onTorrentResults((torrents) => {
-  console.log("Torrent Results: ", torrents);
-});
 
 
 
       window.electron.onMovieData((data) => {
 
-        console.log("Selected Name: ",data.Title);
-      
+        console.log("Selected Name: ", data.Title);
+
         const bgImageDiv = document.getElementById('bgImage');
         const bgLogoDiv = document.getElementById('bgLogo');
 
@@ -141,21 +143,65 @@ window.electron.onTorrentResults((torrents) => {
         movDirector.innerHTML = data.Director;
         movSummary.innerHTML = data.Plot;
 
+
+
+
+        window.electron.sendTorrentSearch(data.Title);
+
+
+        window.electron.onTorrentResults((torrents) => {
+          console.log("Torrent Results: ", torrents);
+
+          const playerContainer = document.getElementById('player-container');
+          playerContainer.innerHTML = '';
+
+          torrents.items.slice(0, 20).forEach(item => {
+            const { provider, data: { name, seeds, peers } } = item;
+            console.log(`Provider: ${provider}, Name: ${name}, Seeds: ${seeds}, Peers: ${peers}`);
+
+
+            const torrentElement = document.createElement('div');
+            torrentElement.classList.add('player-item');
+
+            // CHANGE THIS LATER
+            // TODO: ADD A VALUE FOR ONCLICK TO PLAY THE MOVIE
+            torrentElement.innerHTML = `
+            <div class="player-subitem">${provider}</div>
+            <div class="player-subitem" id="Info-sub">${name}</div>
+            <div class="player-extra">
+              ${seeds} Seeds
+              ${peers} Peers
+            
+            </div>
+
+            `;
+
+
+            playerContainer.appendChild(torrentElement);
+          });
+        });
+
       });
+
+
+
+
+
+
       function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch((err) => {
-        console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
-      });
-    } else {
-      document.exitFullscreen();
-    }
-  }
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch((err) => {
+            console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+          });
+        } else {
+          document.exitFullscreen();
+        }
+      }
 
-  document.getElementById('fullscreen-toggle').addEventListener('click', toggleFullscreen);
+      document.getElementById('fullscreen-toggle').addEventListener('click', toggleFullscreen);
 
 
-  
+
     </script>
 
 </body>

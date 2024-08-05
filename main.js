@@ -3,7 +3,8 @@ const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
 const axios = require('axios');
 const fs = require('fs');
-const PirateBay = require('thepiratebay');
+const { search, defaultProviders } = require('torrent-browse');
+
 
 let apiKey = process.env.API_KEY;
 let win
@@ -45,7 +46,7 @@ ipcMain.on('search-query', async (event, query) => {
   const url = `http://www.omdbapi.com/?s=${query}&apikey=${apiKey}`;
   try {
     const response = await axios.get(url);
-   // console.log(response.data);
+    // console.log(response.data);
 
 
     // remove later (LOGS FOR DEBUGGING)
@@ -61,7 +62,7 @@ ipcMain.on('search-query', async (event, query) => {
   }
 });
 
-ipcMain.on('info-query', async (event,query) => {
+ipcMain.on('info-query', async (event, query) => {
   console.log('info-query', query);
   const url = `http://www.omdbapi.com/?i=${query}&apikey=${apiKey}`;
   try {
@@ -81,53 +82,32 @@ ipcMain.on('info-query', async (event,query) => {
   }
 });
 
+//https://www.npmjs.com/package/stable-torrent-browse
 
-// ipcMain.on('torrent-search', async (event, movieTitle) => { //more debug
-//   console.log('torrent-search event received with movieTitle:', movieTitle);
-//   try {
-//     const searchOptions = {
-//       category: 'video',
-//     };
-//     console.log('Search options:', searchOptions);
-
-//     const torrents = await PirateBay.search(movieTitle, searchOptions);
-//     console.log('Torrents found:', torrents);
-
-//     const torrentPath = path.join(__dirname, 'logs/torrent-search.json');
-//     fs.writeFileSync(torrentPath, JSON.stringify(torrents, null, 2), 'utf-8');
-//     console.log('Torrents written to torrent-search.json');
-
-//     event.sender.send('torrent-results', torrents);
-//   } catch (error) {
-//     console.error('Error searching for torrents:', error);
-//   }
-// });
-
-ipcMain.on('torrent-search', async (event, movieTitle) => {
+ipcMain.on('torrent-search', async (event, movieTitle) => { //more debug
   console.log('torrent-search event received with movieTitle:', movieTitle);
   try {
-
-    // Temporarily using a hardcoded search term for debugging
-    const searchResults = await PirateBay.search('harry potter', {
-      category: 'video',
-      page: 3
+    search(
+      defaultProviders,
+      movieTitle,
+      //https://kiralt.github.io/torrent-browse/interfaces/Provider.html THE DOCS
+      { fields: ['name', 'seeds', 'peers', 'getMagnet'] } 
+    ).then(result => {
+      console.log(result)
+      console.log('Torrents found:', result);
+      const torrentPath = path.join(__dirname, 'logs/torrent-search.json');
+      fs.writeFileSync(torrentPath, JSON.stringify(result, null, 2), 'utf-8');
+      console.log('Torrents written to torrent-search.json');
+  
+      event.sender.send('torrent-results', result);
     })
-    console.log(searchResults)
+    
 
-    const torrentPath = path.join(__dirname, 'logs/torrent-search.json');
-    fs.writeFileSync(torrentPath, JSON.stringify(searchResults, null, 2), 'utf-8');
-    console.log('Torrents written to torrent-search.json');
 
-    event.sender.send('torrent-results', searchResults);
   } catch (error) {
     console.error('Error searching for torrents:', error);
   }
 });
 
-const searchResults = PirateBay.search('harry potter', {
-  category: 'video',
-  page: 3
-})
-setTimeout(() => {
-  console.log(searchResults);
-}, 10000);
+
+

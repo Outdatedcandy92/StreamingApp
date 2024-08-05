@@ -176,7 +176,6 @@ html {
 
 .player-container {
   background-color: rgba(22, 21, 22, 0.3);
-  height: 80%;
   width: 90%;
   bottom: 0;
   right: 0;
@@ -187,14 +186,19 @@ html {
   flex-direction: column;
   padding: 10px;
   color: white;
+  height: 80%;
+  overflow-y: auto;
+}
+.player-container::-webkit-scrollbar {
+  display: none;
 }
 
 .player-item {
   display: flex;
   justify-content: space-between;
   margin: 20px;
-  height: 70px;
   transition: transform 0.3s ease;
+  align-items: flex-start;
 }
 
 .player-item:hover {
@@ -214,6 +218,10 @@ html {
   overflow: hidden;
   display: flex;
   align-items: center;
+
+}
+#Info-sub{
+  flex:3;
 }
  
 .player-extra {
