@@ -1,0 +1,101 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+
+        body::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+
+        .rounded-div-wrapper {
+
+            transition: transform 0.3s ease;
+        }
+
+        .rounded-div-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="./img/logo.png" alt="Logo" onclick="window.location.href='../index.html'">
+        </div>
+        <div class="navbar-search">
+            <input type="text" id="search-input" placeholder="Search for a movie...">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="navbar-icons">
+            <i class="fas fa-cog"></i>
+            <i class="fas fa-expand"></i>
+            <i class="fas fa-user"></i>
+        </div>
+    </nav>
+
+    <div class="full-width-container">
+        <div class="content-row">
+            <div class="top-div">
+                <span class="left-text">Results</span>
+            </div>
+            <div id="container">
+                <!-- 
+                <div class="rounded-div-container">
+                    <div class="rounded-div-wrapper">
+                        <div class="rounded-div"></div>
+                        <div class="below-text">Hmm</div>
+                </div>
+                     -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <script src="search.js"></script>
+    <script src="../script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputField = document.getElementById('search-input');
+
+        inputField.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                const query = inputField.value;
+                handleSearch(query);
+            }
+        });
+    });
+    
+
+//     roundedDiv = document.getElementById('rounded-div-id');
+//     roundedDiv.addEventListener('click', () => {
+//     const query = roundedDiv.dataset.imdbid; 
+//     console.log('Query:', query);
+// });    
+
+    </script>
+
+
+
+</body>
+
+</html>

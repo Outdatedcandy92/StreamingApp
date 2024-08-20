@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- use the scirpt to get title -->
+  <title>Page</title>
+  <link rel="stylesheet" href="page.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <div class="overlay" id="bgImage">
+    <div class="overlay-img"></div>
+  </div>
+
+  <div class="top-layer">
+
+    <nav class="navbar">
+      <div class="navbar-back">
+        <i class="fa-solid fa-chevron-left" onclick="history.back()"></i>
+      </div>
+
+      <div class="navbar-icons">
+        <i class="fas fa-cog"></i>
+        <i class="fas fa-expand" id="fullscreen-toggle"></i>
+        <i class="fas fa-user"></i>
+      </div>
+    </nav>
+
+    <div class="content">
+
+
+      <div class="column left-column">
+        <div class="top-div">
+          <img src="" alt="Image" id="bgLogo">
+        </div>
+        <div class="bottom-div">
+          <div class="Rating-Div">
+            <div class="rating-item" id="movTime">120 min</div>
+            <div class="rating-item" id="movYear">2012</div>
+            <div class="rating-item" id="movRating">IMDB</div>
+          </div>
+
+          <div class="info">
+            <div class="info-item">
+              <div class="title">Genres</div>
+              <div class="contentdiv" id="movGeneres">Action, Crime, Thriller</div>
+            </div>
+            <div class="info-item">
+              <div class="title">Cast</div>
+              <div class="contentdiv" id="movCast">Robert Pattinson, Jeffery ...</div>
+            </div>
+            <div class="info-item">
+              <div class="title">Director</div>
+              <div class="contentdiv" id="movDirector">Matt Revees</div>
+            </div>
+            <div class="info-item">
+              <div class="title">Summary</div>
+              <div class="contentdiv" id="movSummary">The Dark Knight of Gotham City begins his war on crime with his
+                first major enemy
+                being Jack Napier, a criminal who becomes the clownishly homicidal Joker.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="column middle-column">
+        <!-- will leave empty -->
+      </div>
+
+
+      <div class="column right-column">
+        <div class="player-container" id="player-container">
+
+
+          <!-- Stuff will be added from script -->
+
+          <!-- 
+          <div class="player-item">
+            <div class="player-subitem">Source 1080p</div>
+            <div class="player-subitem" id="Info-sub">Info About source 1 and stuf</div>
+            <div class="player-extra">
+              <i class="fa-regular fa-circle-play" id="PlayBtn"></i>
+            </div>
+          </div>
+ -->
+
+        </div>
+
+
+
+
+
+        <script>
+
+
+
+
+
+          window.electron.onMovieData((data) => {
+
+            console.log("Selected Name: ", data.Title);
+
+            const bgImageDiv = document.getElementById('bgImage');
+            const bgLogoDiv = document.getElementById('bgLogo');
+
+            bgImageDiv.style.background = `url('https://images.metahub.space/background/medium/${data.imdbID}/img') no-repeat center center/cover`;
+            bgLogoDiv.src = `https://images.metahub.space/logo/medium/${data.imdbID}/img`;
+
+
+            const movTime = document.getElementById('movTime');
+            const movYear = document.getElementById('movYear');
+            const movRating = document.getElementById('movRating');
+
+            movTime.innerHTML = data.Runtime;
+            movYear.innerHTML = data.Year;
+            movRating.innerHTML = data.imdbRating;
+
+
+            const movGeneres = document.getElementById('movGeneres');
+            const movCast = document.getElementById('movCast');
+            const movDirector = document.getElementById('movDirector');
+            const movSummary = document.getElementById('movSummary');
+
+            // TODO: IF SERIES CHECK THE WRITERS
+            movGeneres.innerHTML = data.Genre;
+            movCast.innerHTML = data.Actors;
+            movDirector.innerHTML = data.Director;
+            movSummary.innerHTML = data.Plot;
+
+
+
+
+            window.electron.sendTorrentSearch(data.imdbID);
+
+
+            window.electron.onTorrentResults((torrents) => {
+              console.log("Torrent Results: ", torrents);
+
+              const playerContainer = document.getElementById('player-container');
+              playerContainer.innerHTML = '';
+
+              torrents.items.slice(0, 20).forEach(item => {
+                const { provider, data: { name, seeds, peers, magnet } } = item;
+                console.log(`Provider: ${provider}, Name: ${name}, Seeds: ${seeds}, Peers: ${peers},\nMagnet: ${magnet}`);
+
+
+                const torrentElement = document.createElement('div');
+                torrentElement.classList.add('player-item');
+
+                torrentElement.onclick = () => {
+                  const torrentData = {
+                    id: data.imdbID,
+                    magnet: magnet
+                  };
+                  window.electron.send('torrent-selected', torrentData);
+                };
+
+                // CHANGE THIS LATER
+                // TODO: ADD A VALUE FOR ONCLICK TO PLAY THE MOVIE
+                torrentElement.innerHTML = `
+            <div class="player-subitem">${provider}</div>
+            <div class="player-subitem" id="Info-sub">${name}</div>
+            <div class="player-extra">
+              ${seeds} Seeds
+              ${peers} Peers
+            
+            </div>
+
+            `;
+
+
+                playerContainer.appendChild(torrentElement);
+              });
+            });
+
+          });
+
+
+
+
+
+
+          function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+              document.documentElement.requestFullscreen().catch((err) => {
+                console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+              });
+            } else {
+              document.exitFullscreen();
+            }
+          }
+
+          document.getElementById('fullscreen-toggle').addEventListener('click', toggleFullscreen);
+
+
+
+        </script>
+
+</body>
+
+</html>
