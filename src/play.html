@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play</title>
+    <script src="https://cdn.jsdelivr.net/npm/webtorrent/webtorrent.min.js"></script>
+</head>
+<body>
+    <video id="videoPlayer" controls style="width: 100%; height: auto;"></video>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const magnetURI = urlParams.get('magnet');
+
+            console.log('Magnet URI:', magnetURI);  
+
+            if (magnetURI) {
+                const client = new WebTorrent();
+
+                client.on('error', err => {
+                    console.error('WebTorrent error:', err);
+                });
+
+                client.add(magnetURI, torrent => {
+                    console.log('Torrent added:', torrent);  
+
+                    torrent.on('warning', err => {
+                        console.warn('Torrent warning:', err);
+                    });
+
+                    torrent.on('error', err => {
+                        console.error('Torrent error:', err);
+                    });
+
+                    torrent.on('wire', (wire, addr) => {
+                        console.log(`Connected to peer: ${addr}`);
+                    });
+
+                    torrent.on('download', bytes => {
+                        console.log(`Downloaded: ${bytes} bytes`);
+                        console.log(`Progress: ${(torrent.progress * 100).toFixed(1)}%`);
+                    });
+
+                    torrent.on('done', () => {
+                        console.log('Torrent download finished');
+                    });
+
+                    const file = torrent.files.find(file => file.name.endsWith('.mp4'));
+
+                    if (file) {
+                        console.log('Playable file found:', file); 
+                        file.renderTo('video#videoPlayer');
+                    } else {
+                        console.error('No playable file found in the torrent.');
+                    }
+                });
+            } else {
+                console.error('No magnet link found in the URL.');
+            }
+        });
+    </script>
+</body>
+</html>

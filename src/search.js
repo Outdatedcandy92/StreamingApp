@@ -1,3 +1,5 @@
+import { apiKey } from './config.js';
+
 const urlParams = new URLSearchParams(window.location.search);
 const query = urlParams.get('q');
 
@@ -5,7 +7,7 @@ const query = urlParams.get('q');
 console.log('Search query:', query);
 
 
-const apiKey = '7c9d7d20';
+
 
 const url = `http://www.omdbapi.com/?s=${query}&apikey=${apiKey}`;
 
@@ -41,9 +43,28 @@ fetch(url)
             roundedDiv.addEventListener('click', () => {
                 const query = roundedDiv.dataset.imdbid; 
                 console.log('Query:', query);
+                window.location.href = `page.html?q=${query}`;
+
+        
             });
         });
     })
     .catch(error => {
         console.error('Error fetching data:', error);
     });
+
+
+
+function fetchMovieDetails(imdbID) {
+    const detailsUrl = `http://www.omdbapi.com/?i=${imdbID}&apikey=${apiKey}`;
+
+    fetch(detailsUrl)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Movie details:', data);
+            
+        })
+        .catch(error => {
+            console.error('Error fetching movie details:', error);
+        });
+}
