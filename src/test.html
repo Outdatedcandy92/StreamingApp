@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WebTorrent Video Stream</title>
+  <style>
+    #output video {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="output">
+    <video id="videoPlayer" controls></video>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
+
+  <script>
+    const magnetURI = 'magnet:?xt=urn:btih:dd8255ecdc7ca55fb0bbf81323d87062db1f6d1c&dn=Big+Buck+Bunny&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fbig-buck-bunny.torrent';
+    const client = new WebTorrent();
+
+    console.log('WebTorrent client initialized');
+
+    client.add(magnetURI, function (torrent) {
+      console.log('Torrent added:', torrent);
+
+ 
+      torrent.files.forEach(function (file) {
+        console.log('File in torrent:', file.name);
+      });
+
+      const file = torrent.files.find(function (file) {
+        return file.name.endsWith('.mp4');
+      });
+
+      if (file) {
+        console.log('Found .mp4 file:', file.name);
+        file.renderTo('#videoPlayer', {
+          autoplay: true
+        }, function (err, elem) {
+          if (err) {
+            console.error('Error rendering file:', err);
+          } else {
+            console.log('File rendered to video player:', elem);
+          }
+        });
+      } else {
+        console.error('No .mp4 file found in the torrent.');
+      }
+    });
+
+    client.on('error', function (err) {
+      console.error('Error with WebTorrent client:', err);
+    });
+
+
+    const videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.addEventListener('error', function (event) {
+      console.error('Video element error:', event);
+    });
+    videoPlayer.addEventListener('waiting', function () {
+      console.log('Video is waiting for more data...');
+    });
+    videoPlayer.addEventListener('canplay', function () {
+      console.log('Video can start playing.');
+    });
+    videoPlayer.addEventListener('playing', function () {
+      console.log('Video is playing.');
+    });
+  </script>
+</body>
+</html>
