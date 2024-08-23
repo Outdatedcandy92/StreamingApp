@@ -40,7 +40,6 @@ fetch(url)
         const movDirector = document.getElementById('movDirector');
         const movSummary = document.getElementById('movSummary');
 
-        // TODO: IF SERIES CHECK THE WRITERS
         movGeneres.innerHTML = data.Genre;
         movCast.innerHTML = data.Actors;
         movDirector.innerHTML = data.Director;
@@ -69,19 +68,24 @@ fetch(url)
                         magnet: magnet
                     };
 
-                    console.log('Torrent Data:', torrentData);  
-                    window.location.href = `play.html?magnet=${encodeURIComponent(magnet)}`;
-                    //window.electron.send('torrent-selected', torrentData);
+                    console.log('Torrent Data:', torrentData);
+
+                    const tempLink = document.createElement('a');
+                    tempLink.href = magnet;
+                    tempLink.style.display = 'none';
+                    document.body.appendChild(tempLink);
+                    tempLink.click();
+                    document.body.removeChild(tempLink);
+
                 };
 
-                // CHANGE THIS LATER
+
                 torrentElement.innerHTML = `
                     <div class="player-subitem">${provider}</div>
                     <div class="player-subitem" id="Info-sub">${name}</div>
                     <div class="player-extra">
                         ${seeds} Seeds
                         ${peers} Peers
-                    
                     </div>
     `;
 

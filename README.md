@@ -1,14 +1,15 @@
-# Electron WebTorrent MPV Player
+# Streaming Website
 
-This is an Electron application that allows you to stream torrents using WebTorrent and play them using MPV.
+This website allows you to search movies and series and find their torrents.
 
-## Features
+Visit it (Here)[]
 
-- Stream torrents using WebTorrent
-- Play video files using MPV
-- Simple and easy-to-use interface
+## Demo
 
-## Installation
+https://github.com/user-attachments/assets/55559049-7d16-49a0-90e6-7402cffbfcb2
+
+
+## Local Installation
 
 1. Clone the repository:
    ```sh
@@ -16,26 +17,7 @@ This is an Electron application that allows you to stream torrents using WebTorr
    cd StreamingApp
    ```
 
-2. Install dependencies:
-   ```sh
-   npm install
-   ```
-
-3. Install WebTorrent CLI globally:
-   ```sh
-   npm install -g webtorrent-cli
-   ```
-
-4. Make sure you have MPV installed on your system. You can download it from [here](https://mpv.io/installation/).
-
-## Usage
-
-1. Start the application:
-   ```sh
-   npm start
-   ```
-
-2. Select a torrent magnet link to stream and play it using MPV.
+2. Open Index.html
 
 ## Contributing
 
