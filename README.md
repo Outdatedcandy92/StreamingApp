@@ -2,7 +2,7 @@
 
 This website allows you to search movies and series and find their torrents.
 
-Visit it (Here)[]
+Visit it [Here](https://outdatedcandy92.github.io/StreamingApp/)
 
 ## Demo
 
